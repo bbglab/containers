@@ -1,0 +1,59 @@
+################## BASE IMAGE ######################
+
+FROM quay.io/biocontainers/samtools:1.17--hd87286a_2
+
+
+################## METADATA ######################
+
+LABEL base_image="samtools:1.17--hd87286a_2"
+LABEL version="1"
+LABEL about.summary="Python library for plotting."
+LABEL software="seaborn"
+LABEL software.version="0.12.2"
+LABEL about.tags="implemented-in::python"
+LABEL about.home="https://seaborn.pydata.org"
+LABEL about.software="https://seaborn.pydata.org"
+LABEL about.documentation="https://seaborn.pydata.org"
+LABEL about.license="BSD-3-Clause"
+LABEL about.license_file="https://github.com/mwaskom/seaborn/LICENSE.md"
+
+################## MAINTAINER ######################
+MAINTAINER "Ferriol Calvet <ferriol.calvet@irbbarcelona.org>"
+
+################## INSTALLATION ######################
+USER root
+ENV DEBIAN_FRONTEND interactive
+
+RUN apt-get update && apt-get -y upgrade
+
+# Copy your C++ source file into the container
+COPY filter_bam.cpp /usr/src/
+
+# Install the necessary build tools (if not already installed)
+RUN yum update && yum install -y g++
+
+# Compile your C++ source file
+RUN g++ -o filter_bam /usr/src/filter_bam.cpp -Wl,-rpath,/usr/local/lib -I /usr/local/include/ -L /usr/local/lib -lhts;
+
+RUN chmod +x filter_bam;
+
+# Set the working directory
+WORKDIR /usr/src/
+
+# # Command to run your program
+# CMD ["./your_cpp_program"]
+
+
+RUN cd /opt/ \
+    && wget https://github.com/samtools/samtools/releases/download/1.18/samtools-1.18.tar.bz2 \
+    && tar -xjf samtools-1.18.tar.bz2 \
+    && rm -rf samtools-1.18.tar.bz2  \
+    && cd samtools-1.18/ \
+    && make && make install
+
+  
+ENV PATH="/opt/samtools-1.18/:${PATH}"
+
+
+
+RUN apt-get install samtools -y

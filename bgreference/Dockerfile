@@ -12,6 +12,10 @@ RUN pip install matplotlib numpy pandas
 RUN pip install bgdata
 RUN pip install bgreference
 
+RUN mkdir -p /home/user/.config/bbglab/ 
+RUN chown user:user /home/user/.config/bbglab/ && \
+    chmod 644 /home/user/.config/bbglab/
+    
 RUN echo "# Version of the bgdata config file\n\
 version = 2\n\
 \n\

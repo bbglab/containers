@@ -13,8 +13,6 @@ RUN pip install bgdata
 RUN pip install bgreference
 
 RUN mkdir -p /home/user/.config/bbglab/ 
-RUN chown user:user /home/user/.config/bbglab/ && \
-    chmod 644 /home/user/.config/bbglab/
     
 RUN echo "# Version of the bgdata config file\n\
 version = 2\n\
@@ -30,9 +28,6 @@ offline = True\n\
 \n\
 # Cache repositories\n\
 [cache_repositories]" > /home/user/.config/bbglab/bgdatav2.conf
-
-RUN chown user:user /home/user/.config/bbglab/bgdatav2.conf && \
-    chmod 644 /home/user/.config/bbglab/bgdatav2.conf
     
 RUN python3 -c "from bgreference import hg38; hg38(1, 1300000, 3000)"
 

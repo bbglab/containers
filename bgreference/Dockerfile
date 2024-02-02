@@ -1,19 +1,16 @@
 FROM python:3.10.5
 
 RUN mkdir -p /bgdatacache/
-ENV BGDATA_LOCAL="/bgdatacache"
+RUN mkdir -p /home/user/.config/bbglab/
 
-RUN useradd -m -d /home/user -s /bin/bash user && \
-    echo "user:userpass" | chpasswd && \
-    usermod -aG sudo user
-    
+ENV BGDATA_LOCAL="/bgdatacache"
+ENV BBGLAB_HOME="/home/user/.config/bbglab/"
+
 RUN apt-get update -y && apt-get upgrade -y
 RUN pip install matplotlib numpy pandas
 RUN pip install bgdata
 RUN pip install bgreference
 
-RUN mkdir -p /home/user/.config/bbglab/ 
-    
 RUN echo "# Version of the bgdata config file\n\
 version = 2\n\
 \n\
@@ -24,12 +21,13 @@ local_repository = \"/bgdatacache\"\n\
 remote_repository = \"https://bbglab.irbbarcelona.org/bgdata\"\n\
 \n\
 # If you want to force bgdata to work only locally\n\
-offline = True\n\
+# offline = True\n\
 \n\
 # Cache repositories\n\
 [cache_repositories]" > /home/user/.config/bbglab/bgdatav2.conf
-    
-RUN python3 -c "from bgreference import hg38; hg38(1, 1300000, 3000)"
 
-USER user
-WORKDIR /home/user
+RUN cp /home/user/.config/bbglab/bgdatav2.conf /home/user/
+RUN cp /home/user/.config/bbglab/bgdatav2.conf /home/
+RUN cp /home/user/.config/bbglab/bgdatav2.conf /
+
+RUN python3 -c "from bgreference import hg38; hg38(1, 1300000, 3000)"

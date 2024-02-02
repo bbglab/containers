@@ -26,8 +26,4 @@ remote_repository = \"https://bbglab.irbbarcelona.org/bgdata\"\n\
 # Cache repositories\n\
 [cache_repositories]" > /home/user/.config/bbglab/bgdatav2.conf
 
-RUN cp /home/user/.config/bbglab/bgdatav2.conf /home/user/
-RUN cp /home/user/.config/bbglab/bgdatav2.conf /home/
-RUN cp /home/user/.config/bbglab/bgdatav2.conf /
-
 RUN python3 -c "from bgreference import hg38; hg38(1, 1300000, 3000)"

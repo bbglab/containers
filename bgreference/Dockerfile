@@ -26,6 +26,7 @@ remote_repository = \"https://bbglab.irbbarcelona.org/bgdata\"\n\
 # Cache repositories\n\
 [cache_repositories]" > /home/user/.config/bbglab/bgdatav2.conf
 
+
 RUN bgdata get datasets/genomereference/hg38 && bgdata get datasets/genomereference/mm10
 RUN python3 -c "from bgreference import hg38, mm10; hg38(1, 1300000, 3000); mm10(1, 1300000, 3000)"
 

@@ -1,8 +1,8 @@
-FROM python:3.6
+FROM python:3.10.12
 
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y git
+    apt-get install -y git libcurl4-openssl-dev
 
 RUN mkdir -p /bgdatacache/ /home/user/.config/bbglab/
 
@@ -31,7 +31,11 @@ RUN python3 -c "from bgreference import hg38, mm10, hg19; hg38(1, 1300000, 3000)
 
 RUN chmod -R 777 /bgdatacache/*
 
-RUN git clone https://bitbucket.org/bbglab/oncodrivefml.git && \
-    cd oncodrivefml && \
-    git checkout feature/mutability_n_depth && \
-    pip install .
+
+# Copy the entire directory from your local machine into the container
+COPY omega ${DOCKER_ROOTFS}/omega
+
+RUN pip install /omega
+
+
+

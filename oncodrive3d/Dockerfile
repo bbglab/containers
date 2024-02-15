@@ -1,15 +1,20 @@
-FROM python:3.6
+FROM python:3.8
 
-RUN apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-get install -y git
+ENV LC_ALL=C
+
+RUN apt-get update -y \
+    && apt-get upgrade -y \
+    && apt-get install -y bash \
+    && pip install --upgrade pip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /bgdatacache/ /home/user/.config/bbglab/
 
 ENV BGDATA_LOCAL="/bgdatacache"
 ENV BBGLAB_HOME="/home/user/.config/bbglab/"
 
-RUN pip install bgdata bgreference typer
+RUN pip install bgdata bgreference
 
 RUN echo "# Version of the bgdata config file\n\
 version = 2\n\
@@ -31,7 +36,14 @@ RUN python3 -c "from bgreference import hg38, mm10, hg19; hg38(1, 1300000, 3000)
 
 RUN chmod -R 777 /bgdatacache/*
 
-RUN git clone https://bitbucket.org/bbglab/oncodrivefml.git && \
-    cd oncodrivefml && \
-    git checkout feature/mutability_n_depth && \
-    pip install .
+
+# Copy the entire directory from your local machine into the container
+COPY oncodrive3d ${DOCKER_ROOTFS}/oncodrive3d
+
+RUN pip install /oncodrive3d
+
+# Test the installation
+CMD ["oncodrive3D", "run", "--help"]
+
+LABEL Author="stefano.pellegrini@irbbarcelona.org"
+

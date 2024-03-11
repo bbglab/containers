@@ -12,3 +12,5 @@ RUN apt-get -y install libcurl4-openssl-dev libxml2-dev
 # Install R package mSigHdp
 RUN Rscript -e 'install.packages(pkgs = "remotes")'
 RUN Rscript -e 'remotes::install_github(repo = "steverozen/mSigHdp", ref = "v2.1.2-branch")'
+
+RUN apt-get -y install procps

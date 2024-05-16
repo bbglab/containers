@@ -33,5 +33,5 @@ RUN chmod -R 777 /bgdatacache/*
 
 RUN git clone https://bitbucket.org/bbglab/oncodrivefml.git && \
     cd oncodrivefml && \
-    git checkout feature/mutability_n_depth && \
+    git checkout dev/muts_n_depths && \
     pip install .

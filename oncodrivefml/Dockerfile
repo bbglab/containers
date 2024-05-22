@@ -29,6 +29,8 @@ remote_repository = \"https://bbglab.irbbarcelona.org/bgdata\"\n\
 RUN bgdata get datasets/genomereference/hg38 && bgdata get datasets/genomereference/mm10 && bgdata get datasets/genomereference/hg19
 RUN python3 -c "from bgreference import hg38, mm10, hg19; hg38(1, 1300000, 3000); mm10(1, 1300000, 3000); hg19(1, 1300000, 3000)"
 
+RUN bgdata get datasets/genestops/hg38 & bgdata get datasets/genestops/hg19
+
 RUN chmod -R 777 /bgdatacache/*
 
 RUN git clone https://bitbucket.org/bbglab/oncodrivefml.git && \

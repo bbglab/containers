@@ -1,0 +1,9 @@
+channels:
+- conda-forge
+- bioconda
+dependencies:
+- conda-forge::click=8.1.7
+- conda-forge::pandas=2.2.2
+- pip
+- pip:
+  - scipy==1.13.0rc1

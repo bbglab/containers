@@ -9,7 +9,7 @@ RUN mkdir -p /bgdatacache/ /home/user/.config/bbglab/
 ENV BGDATA_LOCAL="/bgdatacache"
 ENV BBGLAB_HOME="/home/user/.config/bbglab/"
 
-RUN pip install bgdata bgreference typer
+RUN pip install bgdata bgreference
 
 RUN echo "# Version of the bgdata config file\n\
 version = 2\n\

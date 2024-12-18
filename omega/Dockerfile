@@ -38,7 +38,10 @@ RUN chmod -R 777 /bgdatacache/*
 # Copy the entire directory from your local machine into the container
 COPY omega ${DOCKER_ROOTFS}/omega
 
-RUN pip install /omega
+# Install the Python dependencies listed in the requirements.txt
+RUN pip install -r /omega/requirements.txt
 
+# Install the omega package
+RUN pip install /omega
 
 

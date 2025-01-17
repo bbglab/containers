@@ -42,6 +42,6 @@ COPY omega ${DOCKER_ROOTFS}/omega
 RUN pip install -r /omega/requirements.txt
 
 # Install the omega package
-RUN pip install /omega
+RUN pip install --no-cache-dir /omega
 
 

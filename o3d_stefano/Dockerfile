@@ -1,15 +1,20 @@
-FROM python:3.10.12
+FROM python:3.8
 
-RUN apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-get install -y git libcurl4-openssl-dev procps
+ENV LC_ALL=C
+
+RUN apt-get update -y \
+    && apt-get upgrade -y \
+    && apt-get install -y bash \
+    && pip install --upgrade pip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /bgdatacache/ /home/user/.config/bbglab/
 
 ENV BGDATA_LOCAL="/bgdatacache"
 ENV BBGLAB_HOME="/home/user/.config/bbglab/"
 
-RUN pip install bgdata bgreference
+RUN pip install bgdata bgreference 
 
 RUN echo "# Version of the bgdata config file\n\
 version = 2\n\
@@ -28,20 +33,17 @@ remote_repository = \"https://bbglab.irbbarcelona.org/bgdata\"\n\
 
 RUN bgdata get datasets/genomereference/hg38 && bgdata get datasets/genomereference/hg19
 RUN bgdata get datasets/genomereference/mm39 && bgdata get datasets/genomereference/mm10
-
-RUN python3 -c "from bgreference import hg38, hg19; hg38(1, 1300000, 3000); hg19(1, 1300000, 3000)"
+# RUN python3 -c "from bgreference import hg38, hg19; hg38(1, 1300000, 3000); hg19(1, 1300000, 3000)"
 RUN python3 -c "from bgreference import mm39, mm10; mm39(1, 1300000, 3000); mm10(1, 1300000, 3000)"
 
 RUN chmod -R 777 /bgdatacache/*
 
 
-# Copy the entire directory from your local machine into the container
-COPY omega /omega
+COPY oncodrive3d ${DOCKER_ROOTFS}/oncodrive3d
 
-# Install the Python dependencies listed in the requirements.txt
-RUN pip install --default-timeout=100000 -r /omega/requirements.txt
+RUN pip install /oncodrive3d
 
-# Install the omega package
-RUN pip install --no-cache-dir /omega
+# Test the installation
+CMD ["oncodrive3D", "run", "--help"]
 
-
+LABEL Author="stefano.pellegrini@irbbarcelona.org"

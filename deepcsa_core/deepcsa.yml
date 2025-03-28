@@ -162,3 +162,4 @@ dependencies:
       - pycurl==7.45.6
       - requests==2.32.3
       - urllib3==2.3.0
+      - pysam==0.23.0

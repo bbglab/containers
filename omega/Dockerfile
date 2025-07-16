@@ -42,7 +42,7 @@ RUN chmod -R 777 /bgdatacache/*
 RUN mkdir -p /root/.cache/uv \
     && git clone https://github.com/bbglab/omega.git \
     && cd omega \
-    && git checkout build-with-uv \
+    && git checkout main-dev \
     && uv sync --frozen --no-dev \
     && uv build \
     && pip install dist/*.tar.gz \

@@ -1,4 +1,8 @@
-FROM python:3.10.12
+FROM ghcr.io/astral-sh/uv:0.5-python3.12-bookworm-slim
+
+# Set environment variables
+ENV UV_COMPILE_BYTECODE=1
+
 
 RUN apt-get update -y && \
     apt-get upgrade -y && \
@@ -34,14 +38,16 @@ RUN python3 -c "from bgreference import mm39, mm10; mm39(1, 1300000, 3000); mm10
 
 RUN chmod -R 777 /bgdatacache/*
 
+# Install dependencies and build the project
+RUN mkdir -p /root/.cache/uv \
+    && git clone https://github.com/bbglab/omega.git \
+    && cd omega \
+    && git checkout build-with-uv \
+    && uv sync --frozen --no-dev \
+    && uv build \
+    && pip install dist/*.tar.gz \
+    # Clean up unnecessary files
+    && rm -rf /root/.cache/uv
 
-# Copy the entire directory from your local machine into the container
-COPY omega /omega
-
-# Install the Python dependencies listed in the requirements.txt
-RUN pip install --default-timeout=100000 -r /omega/requirements.txt
-
-# Install the omega package
-RUN pip install --no-cache-dir /omega
-
+RUN omega --help
 

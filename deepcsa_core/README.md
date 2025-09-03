@@ -3,13 +3,13 @@
 ## Overview
 
 This Docker container is designed for running the DeepCSA nextflow pipeline bin scripts within a conda environment.
-It facilitates a consistent and reproducible environment, it also includes bgdata genome reference datasets h38 and mm39.
+It facilitates a consistent and reproducible environment, it also includes bgdata genome reference datasets hg38 and mm39.
 
 ## Container Details
 
 - **Base Image**: mambaorg/micromamba:2.0.5-debian12-slim
 - **Maintainer**: bbglab <bbglab@irbbarcelona.org>
-- **Version**: 0.0.1-alpha
+- **Version**: 0.0.2-alpha
 - **Description**: A Docker image with a conda environment for DeepCSA bin scripts and hg38 and mm39 bgdata references.
 - **Source**: [GitHub Repository](https://github.com/bbglab/containers/deepcsa_core)
 
